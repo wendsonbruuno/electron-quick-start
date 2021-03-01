@@ -73,23 +73,27 @@ function convertExcelToJson(file, nameTable) {
                     rowExcel.CUSODOCTOELETR = value.CUSO;
                     cargaCbco.push(rowExcel);
                 }
-                gerarInsertSql(cargaCbco, nameTable)
-
+                writeSql(gerarInsertSql(cargaCbco, nameTable));
             });
         };
-        fileReader.readAsBinaryString(file);
     }
 
 }
 
 function gerarInsertSql(array , nameTable) {
+    let resultado = new Array
     for (const value of array) {
-        console.log(value);
         let insert = `INSERT INTO ${nameTable} (CBCO, CDIGBCO, IBCO, ETELEG, CCGCCPF, CFLIALCGC, CCTRLCGC, IFANTSBCO, ELOGDR, DINCL, CIDTFDBCOATIVO, CCEPCOMPL, CCEP, CMUNIBGE, CUSODOCTOELETR) 
-                                        values (${value.CBCO}, ${value.CDIGBCO}, ${value.IBCO}, ${value.ETELEG}, ${value.CCGCCPF}, 
-                                            ${value.CFLIALCGC}, ${value.CCTRLCGC}, ${value.IFANTSBCO}, ${value.ELOGDR}, ${value.DINCL}, ${value.CIDTFDBCOATIVO}, ${value.CCEPCOMPL}, ${value.CCEP}, ${value.CMUNIBGE}, ${value.CUSODOCTOELETR});`
-        console.log(insert); 
+                                        VALUES (${value.CBCO}, '${value.CDIGBCO}', '${value.IBCO}', '${value.ETELEG}', ${value.CCGCCPF}, 
+                                            ${value.CFLIALCGC}, ${value.CCTRLCGC}, '${value.IFANTSBCO}', '${value.ELOGDR}', '${value.DINCL}', '${value.CIDTFDBCOATIVO}', ${value.CCEPCOMPL}, ${value.CCEP}, ${value.CMUNIBGE}, '${value.CUSODOCTOELETR}');`
+        resultado.push(insert);
     }
+    console.log(resultado)
+    return resultado 
+}
+
+function writeSql(insert){
+console.log(insert);
 }
 
 
