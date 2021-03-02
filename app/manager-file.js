@@ -100,7 +100,7 @@ function convertExcelToJson(file, nameTable) {
             });
         };
     }
-
+    fileReader.readAsBinaryString(file);
 }
 
 function gerarInsertSql(array, nameTable) {
