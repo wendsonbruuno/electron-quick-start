@@ -84,7 +84,6 @@ function convertTxtToJson(file, nameTable) {
                 }
             });
             writeSql(gerarInsertSql(cargaCbco, nameTable));
-            console.log(cargaCbco);
         }
 
         reader.readAsText(file);
