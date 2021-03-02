@@ -1,0 +1,16 @@
+body{
+    background-color: #363940;
+}
+
+pre{
+    white-space: normal;
+    display: block;
+}
+
+div .copy{
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.5;
+    transition: opacity .5s;
+}

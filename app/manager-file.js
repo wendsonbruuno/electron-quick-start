@@ -1,38 +1,61 @@
+// toastr.success("");
+// toastr.info("");
+// toastr.warning("");
+// toastr.error("");
+
 window.onload = function () {
     var fileInput = document.getElementById('fileInput');
     var file;
-    
+
     var textType = /text.*/;
     var excelType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    var nameTable ;
+    var nameTable;
     //CARREGA O ARQUIVO DO INPUT E DEIXA EM MEMORIA
     fileInput.addEventListener('change', function (e) {
         file = fileInput.files[0];
+
+        if(file != null){
+            document.getElementById('lbFileInput').innerHTML = file.name;
+        }else{
+            document.getElementById('lbFileInput').innerHTML = "Escolha um arquivo";
+        }
+
     });
 
     //AÇÃO DO BOTÃO DE GERAR ARQUIVO
-    document
-        .getElementById("gerarScript")
-        .addEventListener("click", function () {
-            nameTable = document.getElementById('dataTable').value;
-            console.log(nameTable);
-            if (file.type.match(textType)) {
-                var reader = new FileReader();
+    $('form').submit(function (evt) {
+        evt.preventDefault();
+        nameTable = document.getElementById('dataTable').value;
+        console.log(nameTable);
+        if (file.type.match(textType)) {
+            var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    var content = reader.result;
-                    console.log(content);
-                }
-
-                reader.readAsText(file);
-            } else if (file.type.match(excelType)) {
-                convertExcelToJson(file, nameTable);
-            } else {
-                console.log("Arquivo Invalido");
+            reader.onload = function (e) {
+                var content = reader.result;
+                console.log(content);
             }
+
+            reader.readAsText(file);
+        } else if (file.type.match(excelType)) {
+            convertExcelToJson(file, nameTable);
+        } else {
+            toastr.warning("Arquivo Invalido");
+            console.log("Arquivo Invalido");
+        }
+    });
+
+    document
+        .getElementById("copy")
+        .addEventListener("click", function () {
+            var copyText = document.getElementById('jsonData').innerHTML;
+            const textArea = document.createElement('textarea');
+            textArea.textContent = copyText;
+            document.body.append(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            textArea.remove();
+            toastr.success("Copiado!");
         });
-
-
 }
 
 function convertExcelToJson(file, nameTable) {
@@ -80,7 +103,7 @@ function convertExcelToJson(file, nameTable) {
 
 }
 
-function gerarInsertSql(array , nameTable) {
+function gerarInsertSql(array, nameTable) {
     let resultado = new Array
     for (const value of array) {
         let insert = `INSERT INTO ${nameTable} (CBCO, CDIGBCO, IBCO, ETELEG, CCGCCPF, CFLIALCGC, CCTRLCGC, IFANTSBCO, ELOGDR, DINCL, CIDTFDBCOATIVO, CCEPCOMPL, CCEP, CMUNIBGE, CUSODOCTOELETR) 
@@ -89,12 +112,11 @@ function gerarInsertSql(array , nameTable) {
         resultado.push(insert);
     }
     console.log(resultado)
-    return resultado 
+    return resultado
 }
 
-function writeSql(insert){
-console.log(insert);
+function writeSql(insert) {
+    document.getElementById("boxResult")?.classList.remove("invisible");
+    document.getElementById('jsonData').innerHTML = insert;
+    console.log(insert);
 }
-
-
-

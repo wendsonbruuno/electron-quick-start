@@ -1,18 +1,59 @@
-<html><head><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js"></script>
-  <script src="app\manager-file.js"></script>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador Script Sql Base CBCO</title>
+
   <script src="./renderer.js"></script>
-  
-  
-    <meta charset="UTF-8">
-    <title>Gerador Script Sql Base CBCO</title>
-  </head>
-  
-    <body><div style="text-align: center; ">
-      <input type="file" id="fileInput"> <br><br>
-      <label for="nameTable">Insira o nome da Tabela :</label><br>
-      <input type="text" id="dataTable"><br><br>
-      <button type="button" id="gerarScript">Gerar Script Oracle</button>
+  <script type="text/javascript" src="app/js/xlsx.full.min.js"></script>
+  <script type="text/javascript" src="app/manager-file.js"></script>
+  <script type="text/javascript" src="app/js/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="app/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="app/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="app/js/toastr.min.js"></script>
+
+  <link href="app/css/bootstrap.min.css" rel="stylesheet">
+  <link href="app/css/style.css" rel="stylesheet">
+  <link href="app/css/toastr.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container h-100">
+    <div class="row align-items-center h-100">
+      <div class="col-12 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <form>
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="fileInput" required>
+                  <label id="lbFileInput" class="custom-file-label" for="fileInput">Escolha um arquivo</label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <input type="text" class="form-control" id="dataTable" placeholder="Nome da Tabela"
+                  aria-label="Nome da Tabela" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary float-right">Gerar Script Oracle</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="boxResult" class="invisible" style="margin-top: 5%">
+          <div class="card">
+            <div class="copy">
+              <button type="button" id="copy" class="btn btn-link">Copiar</button>
+            </div>
+            <div class="card-body">
+              <pre id="jsonData" style="max-height: 40vh;"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <pre id="jsonData"></pre>
-  
-  </body></html>
+  </div>
+</body>
+
+</html>
