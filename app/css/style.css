@@ -5,6 +5,8 @@ body{
 pre{
     white-space: normal;
     display: block;
+    margin-top: 16px;
+    max-height: 40vh;
 }
 
 div .copy{
@@ -14,3 +16,20 @@ div .copy{
     opacity: 0.5;
     transition: opacity .5s;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+   }
+   ::-webkit-scrollbar-thumb {
+    background: linear-gradient(13deg, #E0E0E0 14%,#e0e0e0 64%);
+    border-radius: 10px;
+   }
+   ::-webkit-scrollbar-thumb:hover{
+    background: linear-gradient(13deg, #BDBDBD 14%,#bdbdbd 64%);
+   }
+   ::-webkit-scrollbar-track{
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: inset 7px 10px 12px #f0f0f0;
+   }
