@@ -92,7 +92,6 @@ function convertTxtToJson(file, nameTable) {
 
 function convertExcelToJson(file, nameTable) {
     if (file) {
-        console.log("hi");
         var fileReader = new FileReader();
         fileReader.onload = function (event) {
             var data = event.target.result;
@@ -139,17 +138,18 @@ function gerarInsertSql(array, nameTable) {
     let resultado = new Array
     for (const value of array) {
         let insert = `INSERT INTO ${nameTable} (CBCO, CDIGBCO, IBCO, ETELEG, CCGCCPF, CFLIALCGC, CCTRLCGC, IFANTSBCO, ELOGDR, DINCL, CIDTFDBCOATIVO, CCEPCOMPL, CCEP, CMUNIBGE, CUSODOCTOELETR) 
-                                        VALUES (${value.CBCO}, '${value.CDIGBCO}', '${value.IBCO}', '${value.ETELEG}', ${value.CCGCCPF}, 
-                                            ${value.CFLIALCGC}, ${value.CCTRLCGC}, '${value.IFANTSBCO}', '${value.ELOGDR}', '${value.DINCL}', '${value.CIDTFDBCOATIVO}', ${value.CCEPCOMPL}, ${value.CCEP}, ${value.CMUNIBGE}, '${value.CUSODOCTOELETR}');`
+                        VALUES (${value.CBCO}, '${value.CDIGBCO}', '${value.IBCO}', '${value.ETELEG}', ${value.CCGCCPF}, ${value.CFLIALCGC}, ${value.CCTRLCGC}, '${value.IFANTSBCO}', '${value.ELOGDR}', '${value.DINCL}', '${value.CIDTFDBCOATIVO}', ${value.CCEPCOMPL}, ${value.CCEP}, ${value.CMUNIBGE}, '${value.CUSODOCTOELETR}');`
         resultado.push(insert);
     }
-    console.log(resultado)
-    return resultado
+    const resultadoString = resultado.join('\n');
+    console.log(resultadoString)
+    return resultadoString;
 }
 
 function writeSql(insert) {
     document.getElementById("boxResult")?.classList.remove("invisible");
     document.getElementById('jsonData').innerHTML = insert;
+    toastr.success("Gerado com sucesso!");
     console.log(insert);
 }
 
