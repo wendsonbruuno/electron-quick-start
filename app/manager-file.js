@@ -141,9 +141,7 @@ function gerarInsertSql(array, nameTable) {
                         VALUES (${value.CBCO}, '${value.CDIGBCO}', '${value.IBCO}', '${value.ETELEG}', ${value.CCGCCPF}, ${value.CFLIALCGC}, ${value.CCTRLCGC}, '${value.IFANTSBCO}', '${value.ELOGDR}', '${value.DINCL}', '${value.CIDTFDBCOATIVO}', ${value.CCEPCOMPL}, ${value.CCEP}, ${value.CMUNIBGE}, '${value.CUSODOCTOELETR}');`
         resultado.push(insert);
     }
-    const resultadoString = resultado.join('\n');
-    console.log(resultadoString)
-    return resultadoString;
+    return resultado.join('\n');
 }
 
 function writeSql(insert) {
