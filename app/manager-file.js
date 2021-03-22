@@ -3,7 +3,13 @@
 // toastr.warning("");
 // toastr.error("");
 
+var tituloGerarScript = "Gerar Script Oracle";
+var tituloGerarScriptProcessando = '<span class="spinner-border spinner-border-sm"></span> Processando..';
+
 window.onload = function () {
+    var btnGerarScript = document.getElementById("btnGerarScript");
+    btnGerarScript.innerHTML = tituloGerarScript;
+
     var fileInput = document.getElementById('fileInput');
     var file;
 
@@ -12,29 +18,15 @@ window.onload = function () {
     var nameTable;
     //CARREGA O ARQUIVO DO INPUT E DEIXA EM MEMORIA
     fileInput.addEventListener('change', function (e) {
+        var lbFileInput = document.getElementById('lbFileInput');
         file = fileInput.files[0];
 
         if (file != null) {
-            document.getElementById('lbFileInput').innerHTML = file.name;
+            lbFileInput.innerHTML = file.name;
         } else {
-            document.getElementById('lbFileInput').innerHTML = "Escolha um arquivo";
+            lbFileInput.innerHTML = "Escolha um arquivo";
         }
 
-    });
-
-    //AÇÃO DO BOTÃO DE GERAR ARQUIVO
-    $('form').submit(function (evt) {
-        evt.preventDefault();
-        nameTable = document.getElementById('dataTable').value;
-        console.log(nameTable);
-        if (file.type.match(textType)) {
-            convertTxtToJson(file, nameTable);
-        } else if (file.type.match(excelType)) {
-            convertExcelToJson(file, nameTable);
-        } else {
-            toastr.warning("Arquivo Invalido");
-            console.log("Arquivo Invalido");
-        }
     });
 
     document
@@ -49,6 +41,36 @@ window.onload = function () {
             textArea.remove();
             toastr.success("Copiado!");
         });
+
+    //AÇÃO DO BOTÃO DE GERAR ARQUIVO
+    $('form').submit(function (evt) {
+        evt.preventDefault();
+
+        btnGerarScript.disabled = true;
+        btnGerarScript.innerHTML = tituloGerarScriptProcessando;
+
+        setTimeout(function () {
+            try {
+                nameTable = document.getElementById('dataTable').value?.toUpperCase();
+                console.log(nameTable);
+                if (file.type.match(textType)) {
+                    convertTxtToJson(file, nameTable);
+                } else if (file.type.match(excelType)) {
+                    convertExcelToJson(file, nameTable);
+                } else {
+                    toastr.warning("Arquivo Invalido");
+                    console.log("Arquivo Invalido");
+                }
+            }
+            catch (err) {
+                toastr.error("Erro ao gerar script!");
+                console.log(err);
+            } finally {
+                btnGerarScript.disabled = false;
+                btnGerarScript.innerHTML = tituloGerarScript;
+            }
+        }, 200);
+    });
 }
 
 function convertTxtToJson(file, nameTable) {
@@ -57,10 +79,10 @@ function convertTxtToJson(file, nameTable) {
 
         reader.onload = function (e) {
             var content = reader.result;
-           
+
             const LINHA_INICIO_LEITURA = 7;
             const allLines = content.split(/\r\n|\n/);
-            
+
             var cargaCbco = new Array;
             allLines.forEach((line, i) => {
                 if (line.trim() != "" && i >= LINHA_INICIO_LEITURA - 1) {
@@ -145,12 +167,12 @@ function gerarInsertSql(array, nameTable) {
 }
 
 function writeSql(insert) {
-    document.getElementById("boxResult")?.classList.remove("invisible");
+    document.getElementById("boxResult").classList.remove("invisible");
     document.getElementById('jsonData').innerHTML = insert;
     toastr.success("Gerado com sucesso!");
     console.log(insert);
 }
 
-function getValue(value){
+function getValue(value) {
     return value != undefined ? value : "";
 }
